@@ -19,6 +19,7 @@ namespace QuizAppApi.Database.Repo
                 return false;
             }
             _context.Answers.Add(answer);
+            _context.SaveChanges();
             return true;
         }
 
@@ -26,6 +27,7 @@ namespace QuizAppApi.Database.Repo
         {
             if(answer == null) { return false; }
             _context.Answers.Remove(answer);
+            _context.SaveChanges();
             return true;
         }
 
@@ -34,6 +36,7 @@ namespace QuizAppApi.Database.Repo
             Answer? answer = await _context.Answers.FirstOrDefaultAsync(a => a.Id == answerId);
             if (answer == null) return false;
             _context.Answers.Remove(answer);
+            _context.SaveChanges();
             return true;
         }
 
@@ -66,6 +69,7 @@ namespace QuizAppApi.Database.Repo
         {
             if (answer == null) return false;
             _context.Answers.Update(answer);
+            _context.SaveChanges();
             return true;
         }
     }

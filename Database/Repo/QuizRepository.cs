@@ -1,37 +1,63 @@
-﻿using QuizAppApi.Database.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using QuizAppApi.Database.Interfaces;
+using System.Linq.Expressions;
 
 namespace QuizAppApi.Database.Repo
 {
     public class QuizRepository : IQuizRepository
     {
-        public Task<bool> Add(Quiz quiz)
+        private QuizDbContext _context;
+        public QuizRepository(QuizDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<bool> Add(Quiz quiz)
+        {
+            if (quiz == null) return false;
+            await _context.Quizes.AddAsync(quiz);
+            _context.SaveChanges();
+            return true;
         }
 
-        public Task<bool> Delete(Quiz quiz)
+        public async Task<bool> Delete(Quiz quiz)
         {
-            throw new NotImplementedException();
+            if (quiz == null) return false;
+            bool doesExists = await _context.Quizes.AnyAsync(a => a.Id == quiz.Id);
+            if (!doesExists) return false;
+            _context.Quizes.Remove(quiz);
+            _context.SaveChanges();
+            return true;
         }
 
-        public Task<bool> DeleteById(Guid quizId)
+        public async Task<bool> DeleteById(Guid quizId)
         {
-            throw new NotImplementedException();
+            Quiz? quiz = await _context.Quizes.FirstOrDefaultAsync(a => a.Id == quizId)
+            if (quiz == null) return false;
+            _context.Quizes.Remove(quiz);
+            _context.SaveChanges();
+            return true;
         }
 
-        public Task<IEnumerable<Quiz>> GetAll()
+        public async Task<IEnumerable<Quiz>> GetAll()
         {
-            throw new NotImplementedException();
+            IEnumerable<Quiz> quizes = await _context.Quizes.ToListAsync();
+            return quizes;
         }
 
-        public Task<Quiz> GetById(Guid quizId)
+        public async Task<Quiz> GetById(Guid quizId)
         {
-            throw new NotImplementedException();
+            Quiz? quiz = await _context.Quizes.FirstOrDefaultAsync(a => a.Id == quizId);
+            if (quiz == null) throw new ArgumentNullException($"A quiz with an id of {quizId} was not found", nameof(quiz));
+            return quiz;
         }
 
-        public Task<bool> Update(Quiz quiz)
+        public async Task<bool> Update(Quiz quiz)
         {
-            throw new NotImplementedException();
+            bool doesExist = await _context.Quizes.AnyAsync(a => a.Id == quiz.Id);
+            if (!doesExist) return false;
+            _context.Quizes.Update(quiz);
+            _context.SaveChanges();
+            return true;
         }
     }
 }
