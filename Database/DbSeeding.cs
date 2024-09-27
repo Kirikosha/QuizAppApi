@@ -28,6 +28,7 @@ namespace QuizAppApi.Database
                     Type = QuestionType.Multiple,
                     Quiz = quiz,
                     Answers = new List<Answer>(),
+                    QuizId = quiz.Id
                 };
                 for( int j = 0; j < 4; j++)
                 {
@@ -36,7 +37,8 @@ namespace QuizAppApi.Database
                         Id = new Guid(),
                         AnswerText = $"answer {j + i}",
                         Correct = j % 2 == 0,
-                        Question = question
+                        Question = question,
+                        QuestionId = question.Id
                     });
                 }
                 quiz.Questions.Add(question);

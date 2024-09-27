@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using QuizAppApi.Database;
@@ -11,9 +12,11 @@ using QuizAppApi.Database;
 namespace QuizAppApi.Migrations
 {
     [DbContext(typeof(QuizDbContext))]
-    partial class QuizDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240927171732_naming-change-secindtry")]
+    partial class namingchangesecindtry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,21 +29,17 @@ namespace QuizAppApi.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("AnswerText")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("answer_text");
+                        .HasColumnType("text");
 
                     b.Property<bool>("Correct")
-                        .HasColumnType("boolean")
-                        .HasColumnName("correct");
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("QuestionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("question_id");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -53,21 +52,17 @@ namespace QuizAppApi.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("QuizId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("quiz_id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("title");
+                        .HasColumnType("text");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer")
-                        .HasColumnName("type");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -80,20 +75,16 @@ namespace QuizAppApi.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Correct")
-                        .HasColumnType("integer")
-                        .HasColumnName("correct_answers");
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("QuizId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("quiz_id");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("ResultPercentage")
-                        .HasColumnType("numeric")
-                        .HasColumnName("result_percentage");
+                        .HasColumnType("numeric");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -112,8 +103,7 @@ namespace QuizAppApi.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
@@ -123,8 +113,7 @@ namespace QuizAppApi.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("email");
+                        .HasColumnType("text");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
@@ -143,8 +132,7 @@ namespace QuizAppApi.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("password");
+                        .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
@@ -166,8 +154,7 @@ namespace QuizAppApi.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("username");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -178,17 +165,14 @@ namespace QuizAppApi.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("creation_time");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

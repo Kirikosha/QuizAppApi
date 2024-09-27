@@ -31,7 +31,7 @@ namespace QuizAppApi.Database.Repo
 
         public async Task<bool> DeleteById(Guid quizId)
         {
-            Quiz? quiz = await _context.Quizes.FirstOrDefaultAsync(a => a.Id == quizId)
+            Quiz? quiz = await _context.Quizes.FirstOrDefaultAsync(a => a.Id == quizId);
             if (quiz == null) return false;
             _context.Quizes.Remove(quiz);
             _context.SaveChanges();

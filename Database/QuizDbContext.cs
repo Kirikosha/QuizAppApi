@@ -22,6 +22,16 @@ namespace QuizAppApi.Database
             base.OnConfiguring(optionsBuilder);
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Answer>().ToTable("answers");
+            modelBuilder.Entity<Question>().ToTable("questions");
+            modelBuilder.Entity<Quiz>().ToTable("quizes");
+            modelBuilder.Entity<Result>().ToTable("results");
+            modelBuilder.Entity<User>().ToTable("users");
+            base.OnModelCreating(modelBuilder);
+        }
+
         private bool SaveChanges()
         {
             return this.SaveChanges();

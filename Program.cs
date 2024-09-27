@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using QuizAppApi.Database;
 using QuizAppApi.Database.Interfaces;
+using QuizAppApi.Database.Models;
 using QuizAppApi.Database.Repo;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +17,11 @@ builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
+builder.Services.AddIdentityCore<User>()
+    .AddEntityFrameworkStores<QuizDbContext>()
+    .AddApiEndpoints();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

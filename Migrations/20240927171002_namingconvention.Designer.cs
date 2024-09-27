@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using QuizAppApi.Database;
@@ -11,9 +12,11 @@ using QuizAppApi.Database;
 namespace QuizAppApi.Migrations
 {
     [DbContext(typeof(QuizDbContext))]
-    partial class QuizDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240927171002_namingconvention")]
+    partial class namingconvention
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,9 +45,11 @@ namespace QuizAppApi.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("question_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_answers");
 
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("QuestionId")
+                        .HasDatabaseName("ix_answers_question_id");
 
                     b.ToTable("answers", (string)null);
                 });
@@ -69,9 +74,11 @@ namespace QuizAppApi.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("type");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_questions");
 
-                    b.HasIndex("QuizId");
+                    b.HasIndex("QuizId")
+                        .HasDatabaseName("ix_questions_quiz_id");
 
                     b.ToTable("questions", (string)null);
                 });
@@ -85,7 +92,7 @@ namespace QuizAppApi.Migrations
 
                     b.Property<int>("Correct")
                         .HasColumnType("integer")
-                        .HasColumnName("correct_answers");
+                        .HasColumnName("correct");
 
                     b.Property<Guid>("QuizId")
                         .HasColumnType("uuid")
@@ -96,14 +103,18 @@ namespace QuizAppApi.Migrations
                         .HasColumnName("result_percentage");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_results");
 
                     b.HasIndex("QuizId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_results_quiz_id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_results_user_id");
 
                     b.ToTable("results", (string)null);
                 });
@@ -116,10 +127,12 @@ namespace QuizAppApi.Migrations
                         .HasColumnName("id");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("access_failed_count");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("concurrency_stamp");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -127,19 +140,24 @@ namespace QuizAppApi.Migrations
                         .HasColumnName("email");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("email_confirmed");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("lockout_enabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lockout_end");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("normalized_email");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("normalized_user_name");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -147,29 +165,36 @@ namespace QuizAppApi.Migrations
                         .HasColumnName("password");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("password_hash");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("phone_number");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("phone_number_confirmed");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("security_stamp");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("two_factor_enabled");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("user_name");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("username");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_users");
 
                     b.ToTable("users", (string)null);
                 });
@@ -190,7 +215,8 @@ namespace QuizAppApi.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_quizes");
 
                     b.ToTable("quizes", (string)null);
                 });
@@ -201,7 +227,8 @@ namespace QuizAppApi.Migrations
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_answers_questions_question_id");
 
                     b.Navigation("Question");
                 });
@@ -212,7 +239,8 @@ namespace QuizAppApi.Migrations
                         .WithMany("Questions")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_questions_quizes_quiz_id");
 
                     b.Navigation("Quiz");
                 });
@@ -223,13 +251,15 @@ namespace QuizAppApi.Migrations
                         .WithOne("Result")
                         .HasForeignKey("QuizAppApi.Database.Models.Result", "QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_results_quizes_quiz_id");
 
                     b.HasOne("QuizAppApi.Database.Models.User", "User")
                         .WithMany("Result")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_results_users_user_id");
 
                     b.Navigation("Quiz");
 
