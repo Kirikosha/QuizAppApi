@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using QuizAppApi.Database.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizAppApi.Database.Models {
     public class Question {
@@ -14,9 +15,4 @@ namespace QuizAppApi.Database.Models {
         public required Quiz Quiz { get; set; }
     }
 
-    public enum QuestionType {
-        Single = 0,
-        Multiple = 1,
-        TextInput = 2,
-    }
 }

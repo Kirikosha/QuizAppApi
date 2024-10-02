@@ -1,4 +1,5 @@
-﻿using QuizAppApi.Database.Models;
+﻿using QuizAppApi.Database.Enums;
+using QuizAppApi.Database.Models;
 
 namespace QuizAppApi.Database
 {

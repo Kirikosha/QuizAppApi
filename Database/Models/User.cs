@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using QuizAppApi.Database.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizAppApi.Database.Models {
@@ -11,6 +12,8 @@ namespace QuizAppApi.Database.Models {
         public required string Password { get; set; }
         [Column("email")]
         public required string Email { get; set; }
+        [Column("role")]
+        public required Role Role { get; set; }
         public List<Result>? Result { get; set; }
 
     }
