@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuizAppApi.Database.Models;
+using System.Text.RegularExpressions;
 
 namespace QuizAppApi.Database
 {
@@ -24,17 +25,44 @@ namespace QuizAppApi.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Answer>().ToTable("answers");
             modelBuilder.Entity<Question>().ToTable("questions");
             modelBuilder.Entity<Quiz>().ToTable("quizes");
             modelBuilder.Entity<Result>().ToTable("results");
             modelBuilder.Entity<User>().ToTable("users");
-            base.OnModelCreating(modelBuilder);
+            foreach(var entity in modelBuilder.Model.GetEntityTypes())
+            {
+                foreach (var property in entity.GetProperties())
+                {
+                    property.SetColumnName(ToSnakeCase(property.GetColumnName()));
+                }
+
+                // Set key names to snake_case
+                foreach (var key in entity.GetKeys())
+                {
+                    key.SetName(ToSnakeCase(key.GetName()));
+                }
+
+                // Set foreign key names to snake_case
+                foreach (var foreignKey in entity.GetForeignKeys())
+                {
+                    foreignKey.SetConstraintName(ToSnakeCase(foreignKey.GetConstraintName()));
+                }
+            }
         }
 
         private bool SaveChanges()
         {
             return this.SaveChanges();
+        }
+
+        private string ToSnakeCase(string input)
+        {
+            if (string.IsNullOrEmpty(input)) { return input; }
+
+            var startUnderscores = Regex.Match(input, @"^_+");
+            return startUnderscores + Regex.Replace(input, @"([a-z0-9])([A-Z])", "$1_$2").ToLower();
         }
     }
 }

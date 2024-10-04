@@ -4,15 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizAppApi.Database.Models {
     public class User : IdentityUser {
-        [Column("id")]
-        public Guid Id { get; set; }
-        [Column("username")]
-        public required string Username { get; set; }
-        [Column("password")]
-        public required string Password { get; set; }
-        [Column("email")]
+        public required Guid Id { get; set; }
         public required string Email { get; set; }
-        [Column("role")]
         public required Role Role { get; set; }
         public List<Result>? Result { get; set; }
 

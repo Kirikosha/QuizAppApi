@@ -9,5 +9,6 @@ namespace QuizAppApi.Database.Interfaces
         Task<bool> Delete(User user);
         Task<bool> DeleteById (Guid userId);
         Task<bool> Update(User user);
+        Task<User> GetUserByEmail(string email);
     }
 }
