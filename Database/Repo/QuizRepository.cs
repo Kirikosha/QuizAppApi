@@ -29,7 +29,7 @@ namespace QuizAppApi.Database.Repo
             return true;
         }
 
-        public async Task<bool> DeleteById(Guid quizId)
+        public async Task<bool> DeleteById(int quizId)
         {
             Quiz? quiz = await _context.Quizes.FirstOrDefaultAsync(a => a.Id == quizId);
             if (quiz == null) return false;
@@ -44,7 +44,7 @@ namespace QuizAppApi.Database.Repo
             return quizes;
         }
 
-        public async Task<Quiz> GetById(Guid quizId)
+        public async Task<Quiz> GetById(int quizId)
         {
             Quiz? quiz = await _context.Quizes.FirstOrDefaultAsync(a => a.Id == quizId);
             if (quiz == null) throw new ArgumentNullException($"A quiz with an id of {quizId} was not found", nameof(quiz));

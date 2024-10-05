@@ -4,8 +4,8 @@
     {
         Task<bool> Add(Quiz quiz);
         Task<bool> Delete(Quiz quiz);
-        Task<bool> DeleteById(Guid quizId);
-        Task<Quiz> GetById(Guid quizId);
+        Task<bool> DeleteById(int quizId);
+        Task<Quiz> GetById(int quizId);
         Task<IEnumerable<Quiz>> GetAll();
         Task<bool> Update(Quiz quiz);
     }

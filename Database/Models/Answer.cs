@@ -3,13 +3,14 @@
 namespace QuizAppApi.Database.Models {
     public class Answer {
         [Column("id")]
-        public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         [Column("answer_text")]
         public required string AnswerText { get; set; }
         [Column("correct")]
         public bool Correct { get; set; }
         [Column("question_id")]
-        public required Guid QuestionId { get; set; }
+        public required int QuestionId { get; set; }
         public required Question Question { get; set; }
     }
 }

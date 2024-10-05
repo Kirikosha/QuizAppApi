@@ -15,7 +15,6 @@ namespace QuizAppApi.Database
         {
             Quiz quiz = new Quiz()
             {
-                Id = new Guid(),
                 Name = "some quiz 1",
                 CreationTime = DateTime.Now,
                 Questions = new List<Question>()
@@ -24,7 +23,6 @@ namespace QuizAppApi.Database
             {
                 Question question = new Question()
                 {
-                    Id = new Guid(),
                     Title = $"Question title {i}",
                     Type = QuestionType.Multiple,
                     Quiz = quiz,
@@ -35,7 +33,6 @@ namespace QuizAppApi.Database
                 {
                     question.Answers.Add(new Answer
                     {
-                        Id = new Guid(),
                         AnswerText = $"answer {j + i}",
                         Correct = j % 2 == 0,
                         Question = question,

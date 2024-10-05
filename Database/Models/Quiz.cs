@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace QuizAppApi.Database{
     public class Quiz {
         [Column("id")]
-        public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         [Column("name")]
         public required string Name { get; set; }
         [Column("creation_time")]

@@ -24,10 +24,12 @@ namespace QuizAppApi.Migrations
 
             modelBuilder.Entity("QuizAppApi.Database.Models.Answer", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AnswerText")
                         .IsRequired()
@@ -38,8 +40,8 @@ namespace QuizAppApi.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("correct");
 
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uuid")
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("integer")
                         .HasColumnName("question_id");
 
                     b.HasKey("Id")
@@ -52,13 +54,15 @@ namespace QuizAppApi.Migrations
 
             modelBuilder.Entity("QuizAppApi.Database.Models.Question", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("QuizId")
-                        .HasColumnType("uuid")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("QuizId")
+                        .HasColumnType("integer")
                         .HasColumnName("quiz_id");
 
                     b.Property<string>("Title")
@@ -80,25 +84,27 @@ namespace QuizAppApi.Migrations
 
             modelBuilder.Entity("QuizAppApi.Database.Models.Result", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Correct")
                         .HasColumnType("integer")
                         .HasColumnName("correct_answers");
 
-                    b.Property<Guid>("QuizId")
-                        .HasColumnType("uuid")
+                    b.Property<int>("QuizId")
+                        .HasColumnType("integer")
                         .HasColumnName("quiz_id");
 
                     b.Property<decimal>("ResultPercentage")
                         .HasColumnType("numeric")
                         .HasColumnName("result_percentage");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -114,10 +120,12 @@ namespace QuizAppApi.Migrations
 
             modelBuilder.Entity("QuizAppApi.Database.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer")
@@ -180,11 +188,6 @@ namespace QuizAppApi.Migrations
                         .HasColumnType("text")
                         .HasColumnName("user_name");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("username");
-
                     b.HasKey("Id")
                         .HasName("pk_users");
 
@@ -193,10 +196,12 @@ namespace QuizAppApi.Migrations
 
             modelBuilder.Entity("QuizAppApi.Database.Quiz", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone")

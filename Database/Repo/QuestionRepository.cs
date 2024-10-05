@@ -27,7 +27,7 @@ namespace QuizAppApi.Database.Repo
             return true;
         }
 
-        public async Task<bool> DeleteById(Guid questionId)
+        public async Task<bool> DeleteById(int questionId)
         {
             Question? question = await _context.Questions.FirstOrDefaultAsync(q => q.Id == questionId);
             if (question == null) return false;
@@ -36,7 +36,7 @@ namespace QuizAppApi.Database.Repo
             return true;
         }
 
-        public async Task<IEnumerable<Question>> GetAllByQuizId(Guid quizId)
+        public async Task<IEnumerable<Question>> GetAllByQuizId(int quizId)
         {
             bool quizIdIsValid = await _context.Quizes.AnyAsync(a => a.Id == quizId);
             if (!quizIdIsValid) return Enumerable.Empty<Question>();
@@ -44,7 +44,7 @@ namespace QuizAppApi.Database.Repo
             return questions;
         }
 
-        public async Task<Question> GetByQuestionId(Guid questionId)
+        public async Task<Question> GetByQuestionId(int questionId)
         {
             Question? question = await _context.Questions.FirstOrDefaultAsync(a => a.Id == questionId);
             if (question == null) throw new ArgumentNullException($"Question by id {questionId} does not exist", nameof(question));

@@ -26,7 +26,7 @@ namespace QuizAppApi.Database.Repo
             return isSuccess;
         }
 
-        public async Task<bool> DeleteById(Guid userId)
+        public async Task<bool> DeleteById(int userId)
         {
             var user = await GetUserById(userId);
             if (user == null) return false;
@@ -35,7 +35,7 @@ namespace QuizAppApi.Database.Repo
             return true;
         }
         // TODO - swap exceptions to logger and probably change return type to (User?, Exception?)
-        public async Task<User> GetUserById(Guid userId)
+        public async Task<User> GetUserById(int userId)
         {
             if (userId == default) throw new ArgumentException("User id was not set");
             var user = await _context.Users.FirstOrDefaultAsync(a => a.Id == userId);

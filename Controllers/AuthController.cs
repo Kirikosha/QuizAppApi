@@ -79,12 +79,12 @@ namespace QuizAppApi.Controllers
         // TODO - write tests and check if works
         public async Task<IActionResult> Register([FromBody] string username, [FromBody] string email, [FromBody] string password)
         {
-            User user = new User { Id = new Guid(),
+            User user = new User {
                 Email = email,
                 UserName = username,
                 Role = Database.Enums.Role.Admin};
-            await _userManager.CreateAsync(user, password);
-            return Ok();
+            IdentityResult result = await _userManager.CreateAsync(user, password);
+            return Ok(user.Id);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace QuizAppApi.Database.Repo
             return true;
         }
 
-        public async Task<bool> DeleteById(Guid answerId)
+        public async Task<bool> DeleteById(int answerId)
         {
             Answer? answer = await _context.Answers.FirstOrDefaultAsync(a => a.Id == answerId);
             if (answer == null) return false;
@@ -40,20 +40,20 @@ namespace QuizAppApi.Database.Repo
             return true;
         }
 
-        public async Task<Answer> Get(Guid answerId)
+        public async Task<Answer> Get(int answerId)
         {
             Answer? answer = await _context.Answers.FirstOrDefaultAsync(a => a.Id == answerId);
             if (answer == null) throw new ArgumentException("Answer was not found");
             return answer;
         }
 
-        public async Task<IEnumerable<Answer>> GetAllByQuestionId(Guid questionId)
+        public async Task<IEnumerable<Answer>> GetAllByQuestionId(int questionId)
         {
             List<Answer> answers = await _context.Answers.Where(a => a.QuestionId == questionId).ToListAsync();
             return answers;
         }
 
-        public async Task<IEnumerable<Answer>> GetAllByQuizId(Guid quizId)
+        public async Task<IEnumerable<Answer>> GetAllByQuizId(int quizId)
         {
             List<Question> questions = await _context.Questions.Where(q => q.QuizId == quizId).ToListAsync();
             List<Answer> answers = new List<Answer>();
