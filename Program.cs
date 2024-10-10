@@ -33,14 +33,19 @@ builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationSche
 builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<QuizDbContext>()
     .AddApiEndpoints();
-var app = builder.Build();
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
+    options.Password = new PasswordOptions
+    {
+        RequireDigit = true,
+        RequireLowercase = true,
+        RequireUppercase = true,
+        RequireNonAlphanumeric = false,
+        RequiredLength = 6
+    };
 });
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

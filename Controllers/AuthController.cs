@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizAppApi.Database.Interfaces;
 using QuizAppApi.Database.Models;
+using QuizAppApi.ServiceModels;
 
 namespace QuizAppApi.Controllers
 {
@@ -36,15 +37,15 @@ namespace QuizAppApi.Controllers
         // TODO - make it also to try and get user by its username at the same time
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> LogIn([FromBody] string email, [FromBody] string password)
+        public async Task<IActionResult> LogIn([FromBody](string email, string password)values)
         {
             User? user = null;
-            int isSuccess = await TryGetUser(user, email);
+            int isSuccess = await TryGetUser(user, values.email);
             if(user == null)
             {
                 return StatusCode(isSuccess);
             }
-            var signInResult = await _signInManager.CheckPasswordSignInAsync(user, password, SHOULD_LOCK_OUT_AFTER_FAILURE );
+            var signInResult = await _signInManager.CheckPasswordSignInAsync(user, values.password, SHOULD_LOCK_OUT_AFTER_FAILURE );
             if (signInResult.Succeeded)
             {
                 return Ok();
@@ -77,13 +78,20 @@ namespace QuizAppApi.Controllers
         [HttpPost]
         [Route("register")]
         // TODO - write tests and check if works
-        public async Task<IActionResult> Register([FromBody] string username, [FromBody] string email, [FromBody] string password)
+        public async Task<IActionResult> Register([FromBody] UserRegistrationModel model)
         {
-            User user = new User {
-                Email = email,
-                UserName = username,
-                Role = Database.Enums.Role.Admin};
-            IdentityResult result = await _userManager.CreateAsync(user, password);
+            string requestBody = "";
+            using (StreamReader reader = new StreamReader(HttpContext.Request.Body))
+            {
+                requestBody = await reader.ReadToEndAsync();
+            }
+            User user = new User()
+            {
+                Email = model.Email,
+                Role = Database.Enums.Role.Member,
+                UserName = model.UserName
+            };
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
             return Ok(user.Id);
         }
     }
