@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using QuizAppApi.Database.Models;
 using System.Text.RegularExpressions;
 
 namespace QuizAppApi.Database
 {
-    public class QuizDbContext : DbContext
+    public class QuizDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Question> Questions { get; set; }

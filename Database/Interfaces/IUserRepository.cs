@@ -10,5 +10,6 @@ namespace QuizAppApi.Database.Interfaces
         Task<bool> DeleteById (int userId);
         Task<bool> Update(User user);
         Task<User> GetUserByEmail(string email);
+        Task<User> GetUserByUserName(string username);
     }
 }

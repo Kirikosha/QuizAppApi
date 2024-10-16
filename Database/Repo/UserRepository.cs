@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuizAppApi.Database.Interfaces;
 using QuizAppApi.Database.Models;
+using System.Linq.Expressions;
 
 namespace QuizAppApi.Database.Repo
 {
@@ -37,24 +38,35 @@ namespace QuizAppApi.Database.Repo
         // TODO - swap exceptions to logger and probably change return type to (User?, Exception?)
         public async Task<User> GetUserById(int userId)
         {
-            if (userId == default) throw new ArgumentException("User id was not set");
-            var user = await _context.Users.FirstOrDefaultAsync(a => a.Id == userId);
-            return user == null ? 
-                throw new ArgumentNullException(
-                    nameof(userId), 
-                    "User with specified id was not found") : user;
+            return await GetUserByPredicate(u => u.Id == userId, nameof(userId), userId);
         }
 
         // TODO - swap exceptions to logger and probably change return type to (User?, Exception?)
         public async Task<User> GetUserByEmail(string email)
         {
-            if (string.IsNullOrEmpty(email))
+            return await GetUserByPredicate(u => u.Email == email, nameof(email), email);
+        }
+
+        public async Task<User> GetUserByUserName(string userName)
+        {
+            return await GetUserByPredicate(u => u.UserName == userName, nameof(userName), userName);
+        }
+        
+        private async Task<User> GetUserByPredicate(
+            Expression<Func<User, bool>> predicate,
+            string parameterName,
+            object parameterValue)
+        {
+            if (parameterValue is int id && id == default ||
+                parameterValue is string str && string.IsNullOrEmpty(str))
             {
-                throw new ArgumentNullException(nameof(email), "Email was null");
+                throw new ArgumentNullException(parameterName, $"{parameterName} was not set");
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(a => a.Email == email);
-            return user == null ? throw new ArgumentException("User with specific email was not found", email) : user;
+            var user = await _context.Users.FirstOrDefaultAsync(predicate);
+
+            return user ?? throw new ArgumentException(
+                $"User with specific {parameterName} was not found");
         }
 
         public async Task<bool> Update(User user)
